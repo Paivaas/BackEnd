@@ -2,13 +2,14 @@ var dados = require('../modulo/filmes')
 
 const getListaDeFilmes = function(){
 
-    const info = dados.filmes
+    var info = dados.filmes.filmes
     let filmesA = []
     let filmesJ = {}
 
     info.forEach((dados)=>{
         let dadosFinais = {
             nome: dados.nome
+            
         }
         filmesA.push(dadosFinais)
     })
@@ -16,7 +17,8 @@ const getListaDeFilmes = function(){
     filmesJ.dados = filmesA
     filmesJ.dados = info.length
 
-    console.log(filmesA)
+    return filmesA
+    
 
 }
 getListaDeFilmes()
