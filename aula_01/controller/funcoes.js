@@ -18,7 +18,6 @@ const getListaDeFilmes = function(){
     filmesJ.dados = info.length
 
     return filmesA
-    
 
 }
 getListaDeFilmes()

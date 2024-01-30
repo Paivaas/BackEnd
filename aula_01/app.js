@@ -1,6 +1,18 @@
 //─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
 //
 //
+//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
+// Para realizar a conexão com o BD preicamo utiliazr uma dependencia:
+// - SEQUELIZE ORM Possui diversas vulnerabilidades (É antigo). x
+// - PRISMA    ORM Permite uma melhor interação com o banco    ✔
+// - FASTFY    ORM                                             ✔
+
+//para utilizar o prisma precisamos instalr as seguintes dependencias
+// Prisma instalação: npm install prisma --save (Na pasta raiz - APP)
+// Prisma:            npm install @prisma/client --save
+// * Apos a instalação dos prisma devemos rodar o coamndo abaixo para inicializar o prisma:
+// Prisma:            npx prisma init
+
 
 // importando....................
 const express = require('express')

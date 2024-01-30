@@ -1,0 +1,33 @@
+Back End. - Marcelinho
+•*´¨`*•...•*´¨`*•...•*´¨`*•...•*•*´¨`*•...•*´¨`*•...•*´¨`*•...•*
+
+------------ 23/01
+
+Banco de dados
+→ Modelagem 
+→ Scripts SQL
+→ Recursos avançados de BD (view, proceveres, triggers)
+
+API
+→ GET, POST, PUT e DELETE
+
+Documentação AP
+
+
+ Endpoint
+-No semestre passado: /Pizzas
+-Agora:
+nome do projeto junto com o endpoint: /Tonnypizzaria/Pizzas
+(Vercionar os endpoints) → /v1/Tonnypizzaria/Pizzas
+
+------------ 30/01
+
+- colocar a abreviação do objeto
+database: (nome) db_acme_filmes_turma_ab
+tabela: (nome) tbl_filme
+usar letras minusculas(usar o underscore)
+
+MVC
+Model - dados(Acesso ao banco de dados), maniula as classes na progrogramação orientada ao objeto. * As interações com o banco de dados nos colocamos na pasta DAO
+View - interace do projeto
+Controller - regra de negocios da aplicação (tratamento de dados - validação- converções de dados) * Separar por assunto 
