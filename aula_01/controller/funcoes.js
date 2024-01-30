@@ -1,12 +1,27 @@
 var dados = require('../modulo/filmes')
 
-const getListaDeFilmes = () => {
+const getListaDeFilmes = function(){
 
     const info = dados.filmes
+    let filmesA = []
+    let filmesJ = {}
 
-    filmesA = []
-    filmesJ = {}
+    info.forEach((dados)=>{
+        let dadosFinais = {
+            nome: dados.nome
+        }
+        filmesA.push(dadosFinais)
+    })
 
-    info.
+    filmesJ.dados = filmesA
+    filmesJ.dados = info.length
+
+    console.log(filmesA)
 
 }
+getListaDeFilmes()
+
+module.exports = {
+    getListaDeFilmes
+}
+
