@@ -13,7 +13,6 @@ API
 
 Documentação AP
 
-
  Endpoint
 -No semestre passado: /Pizzas
 -Agora:
@@ -31,3 +30,19 @@ MVC
 Model - dados(Acesso ao banco de dados), maniula as classes na progrogramação orientada ao objeto. * As interações com o banco de dados nos colocamos na pasta DAO
 View - interace do projeto
 Controller - regra de negocios da aplicação (tratamento de dados - validação- converções de dados) * Separar por assunto 
+
+Para realizar a conexão com o BD preicamo utiliazr uma dependencia:
+- SEQUELIZE ORM Possui diversas vulnerabilidades (É antigo). x
+- PRISMA    ORM Permite uma melhor interação com o banco    ✔
+- FASTFY    ORM                                             ✔
+
+Para utilizar o prisma precisamos instalr as seguintes dependencias
+ Prisma instalação: npm install prisma --save (Na pasta raiz - APP)
+ Prisma:            npm install @prisma/client --save
+ * Apos a instalação dos prisma devemos rodar o coamndo abaixo para inicializar o prisma:
+ Prisma:            npx prisma init
+
+------------ 06/02
+
+
+

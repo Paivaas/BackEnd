@@ -34,6 +34,12 @@ app.use((request, response, next)=>{
     next();
 })
 
+// ⊱✿⊰━━━━━━── Imports de arquivos e bibliotecas do projeto ─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
+const controleFIlmes = require('./controller/controller_filme.js')
+
+// ⊱✿⊰━─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
+
+
 //Endpoint
 app.get('/v1/AcmeFilmes/filmes', cors(), async function(request, response, next){
     let controleFIlmes = require('./controller/funcoes')
@@ -46,6 +52,46 @@ app.get('/v1/AcmeFilmes/filmes', cors(), async function(request, response, next)
     }else
         response.status(400)
 });
+
+
+app.get('/v2/acmeFilmes/filmes', cors(), async function(request, response, next){
+
+    //chama a função para rtornar os dados filme
+     let dadosFilmes = await controleFIlmes.getListarFilmes()
+
+     // validação para verificar se existem dados
+     if(dadosFilmes){
+        response.json(dadosFilmes)
+        response.status(200)
+     }else{
+        response.json({message: 'Nenhum registro encontrado'})
+        response.status(440)
+     }
+
+
+})
+// EndPoint listar filmes
+app.get('/v1/acmeFilmes/filmes/filtro?', cors(), async function(request, response, next){
+
+
+    const nome = request.query.nome
+    console.log(nome)
+    //chama a função para rtornar os dados filme
+     let dadosFilmes = await controleFIlmes.getFiltroFilmes(nome)
+
+     // validação para verificar se existem dados
+     if(dadosFilmes){
+        response.json(dadosFilmes)
+        response.status(200)
+     }else{
+        response.json({message: 'Nenhum filme encontrado'})
+        response.status(440)
+     }
+
+
+})
+
+
 app.listen('8080', function(){
-    console.log('API funcionanod! vish')
+    console.log('API funcionando! ✿ ')
 })
