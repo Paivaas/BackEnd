@@ -34,47 +34,40 @@ app.use((request, response, next)=>{
     next();
 })
 
-// ⊱✿⊰━━━━━━── Imports de arquivos e bibliotecas do projeto ─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
+// ⊱✿⊰━━━━━━── Imports de arquivos e bibliotecas do projeto ─━━━━━━⊱✿⊰━━━━━━─
 const controleFIlmes = require('./controller/controller_filme.js')
 
-// ⊱✿⊰━─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
-
+// ⊱✿⊰━─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
 
 //Endpoint
-app.get('/v1/AcmeFilmes/filmes', cors(), async function(request, response, next){
-    let controleFIlmes = require('./controller/funcoes')
-    let listaFilmes = controleFIlmes.getListaDeFilmes();
+// app.get('/v1/AcmeFilmes/filmes', cors(), async function(request, response, next){
+//     let controleFIlmes = require('./controller/funcoes')
+//     let listaFilmes = controleFIlmes.getListaDeFilmes();
 
-    if(listaFilmes){
-        response.json(listaFilmes)
-        response.status(200)
+//     if(listaFilmes){
+//         response.json(listaFilmes)
+//         response.status(200)
 
-    }else
-        response.status(400)
-});
+//     }else
+//         response.status(400)
+// });
 
 
+//1 EndPoint
 app.get('/v2/acmeFilmes/filmes', cors(), async function(request, response, next){
 
-    //chama a função para rtornar os dados filme
-     let dadosFilmes = await controleFIlmes.getListarFilmes()
+    let dadosFilmes = await controleFIlmes.getListarFilmes()
 
-     // validação para verificar se existem dados
-     if(dadosFilmes){
-        response.json(dadosFilmes)
-        response.status(200)
-     }else{
-        response.json({message: 'Nenhum registro encontrado'})
-        response.status(440)
-     }
+    response.status(dadosFilmes.status_code)
+    response.json(dadosFilmes)
 
 
 })
-// EndPoint listar filmes
-app.get('/v1/acmeFilmes/filmes/filtro?', cors(), async function(request, response, next){
 
+//2 EndPoint listar filmes
+app.get('/v1/AcmeFilmes/filmes/filtro?', cors(), async function(request, response, next){
 
-    const nome = request.query.nome
+    let nome = request.query.nome
     console.log(nome)
     //chama a função para rtornar os dados filme
      let dadosFilmes = await controleFIlmes.getFiltroFilmes(nome)
@@ -85,13 +78,24 @@ app.get('/v1/acmeFilmes/filmes/filtro?', cors(), async function(request, respons
         response.status(200)
      }else{
         response.json({message: 'Nenhum filme encontrado'})
-        response.status(440)
+        response.status(404)
      }
+})
 
+//3 EndPoint retorna os dados o filme peo id 
+app.get('/v2/AcmeFilmes/filme/:id', cors(), async function(request, response, next){
+
+    //  recebe p od da requisição do filme
+    let idFilme = request.params.id
+    // solicita para a cpntrole r filme pelo id
+    let dadosfilme = await controleFIlmes.getBuscarFilme(idFilme)
+
+    response.status(dadosfilme.status_code)
+    response.json(dadosfilme)
 
 })
 
-
+// Exxecuta Api e faz ela ficar esperando a requisições
 app.listen('8080', function(){
     console.log('API funcionando! ✿ ')
 })

@@ -9,6 +9,7 @@
 
 // IMporte do arquivo DAo para manipular dados do BD
 const filmesDAO = require('../model/DAO/filme.js')
+const message = require('../modulo/config.js')
 
 
 // Função para inserir um filme existente
@@ -26,7 +27,9 @@ const setExcluirFilme = async function(){
 
 }
 
-// função para retornar todos os flmes do BD
+// ----------------------------------------------------
+
+//1 função para retornar todos os flmes do BD
 const getListarFilmes = async function(){
 
     let filmesJSON = {}
@@ -35,20 +38,20 @@ const getListarFilmes = async function(){
     let dadosFilmes = await filmesDAO.selectAllfilmes()
 
     if(dadosFilmes){
-        // Montando o JSON para retornar para o aPP
-        filmesJSON.filmes = dadosFilmes
-        filmesJSON.quantidade = dadosFilmes.length
-        filmesJSON.status_code = 200
+       
+        if(dadosFilmes.length > 0){
+             // Montando o JSON para retornar para o aPP
+            filmesJSON.filmes = dadosFilmes
+            filmesJSON.quantidade = dadosFilmes.length
+            filmesJSON.status_code = 200
 
-        //Retorna o json montado
-        return filmesJSON
+            //Retorna o json montado
+            return filmesJSON
+        }else{
+            return message.ERROR_NOT_FOUND
+        }
     }else
-        return false //return false quando nao houverem daados
-}
-
-// função para buscar filme pelo ID
-const getBuscarFilme = async function(){
-
+        return message.ERROR_INTERNAL_SERVER_DB
 }
 
 // função para filtrar filmes com base nos dados do BD
@@ -69,6 +72,37 @@ const getFiltroFilmes = async function(nome){
     }else
         return false //return false quando nao houverem daados
 }
+
+//3 função para buscar filme pelo ID
+const getBuscarFilme = async function(id){
+
+    let filmesJson = {}
+    // Recebe o id do filme
+    let idFilme = id
+    if(idFilme == "" || idFilme == undefined || isNaN(idFilme)){
+        return message.ERROR_INVALID_ID
+    }else{
+        // solicita para o dao a busca do flme pelo id
+        let dadosfilme = await filmesDAO.selectByIdfilme(idFilme)
+
+        // validar se existem dados no bd foram processados
+        if(dadosfilme){
+            // validação para verificar se existem dados de retorno
+            if(dadosfilme.length > 0 ){
+                
+                filmesJson.filme = dadosfilme
+                filmesJson.status_code = 200
+
+                return filmesJson 
+            }else
+            return message.ERROR_NOT_FOUND //404
+          
+        }else{
+            return message.ERROR_INTERNAL_SERVER_DB //500
+        }
+    }
+}
+
 
 module.exports = {
     setAtulizarFilme,
