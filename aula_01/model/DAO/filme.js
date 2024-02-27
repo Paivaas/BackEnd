@@ -64,7 +64,7 @@ const insertfilme = async function(dadosfilme){
 
     try {
         
-        if (dadosfilme.data_rancamento == null || dadosfilme.data_rancamento =='') {
+        if (dadosfilme.data_rancamento == null || dadosfilme.data_rancamento =='' || dadosfilme.data_rancamento == undefined) {
 
             let sql = `insert into tbl_filmes (
                 nome,
