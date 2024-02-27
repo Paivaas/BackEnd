@@ -64,23 +64,47 @@ const insertfilme = async function(dadosfilme){
 
     try {
         
-        let sql = `insert into tbl_filmes (
-            nome,
-            sinopse,
-            data_lancamento,
-            data_relancanto,
-            duracao,
-            foto_capa,
-            valor_unitario
-        ) values (
-            '${dadosfilme.nome}',
-            '${dadosfilme.sinopse}',
-            '${dadosfilme.data_rancamento}',
-            '${dadosfilme.data_relancamento}',
-            '${dadosfilme.ducacao}',
-            '${dadosfilme.foto_capa}',
-            '${dadosfilme.valor_unitario}',
-        )`
+        if (dadosfilme.data_rancamento == null) {
+
+            let sql = `insert into tbl_filmes (
+                nome,
+                sinopse,
+                data_lancamento,
+                data_relancanto,
+                duracao,
+                foto_capa,
+                valor_unitario
+            ) values (
+                '${dadosfilme.nome}',
+                '${dadosfilme.sinopse}',
+                '${dadosfilme.data_rancamento}',
+                null,
+                '${dadosfilme.ducacao}',
+                '${dadosfilme.foto_capa}',
+                '${dadosfilme.valor_unitario}',
+            )`
+            
+        }else{
+
+            let sql = `insert into tbl_filmes (
+                nome,
+                sinopse,
+                data_lancamento,
+                data_relancanto,
+                duracao,
+                foto_capa,
+                valor_unitario
+            ) values (
+                '${dadosfilme.nome}',
+                '${dadosfilme.sinopse}',
+                '${dadosfilme.data_rancamento}',
+                '${dadosfilme.data_relancamento}',
+                '${dadosfilme.ducacao}',
+                '${dadosfilme.foto_capa}',
+                '${dadosfilme.valor_unitario}',
+            )`
+
+        }
 
         // executa o sript sql no bd, devemos usar o comndio execute e nao o query
         // o omando execute deve ser utulizado pra insert update e delete

@@ -44,7 +44,25 @@ Para utilizar o prisma precisamos instalr as seguintes dependencias
 
 ------------ 06/02
 
+//Endpoint 1<<<<<<<<<<<<
+// app.get('/v1/AcmeFilmes/filmes', cors(), async function(request, response, next){
+//     let controleFIlmes = require('./controller/funcoes')
+//     let listaFilmes = controleFIlmes.getListaDeFilmes();
+
+//     if(listaFilmes){
+//         response.json(listaFilmes)
+//         response.status(200)
+
+//     }else
+//         response.status(400)
+// }); 
+
+
 ------------ 27/02
 Criação dos post
 
+
+get  | retorna dados
+post | insere dados novos
+put  | atualiza dados existentes
 

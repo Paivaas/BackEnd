@@ -162,8 +162,6 @@ const setInserirFilme = async function(){
             return message.ERROR_INTERNAL_SERVER_DB // 500
         }
     }
-
-
 }
 
 module.exports = {

@@ -12,15 +12,16 @@
 // Prisma:            npm install @prisma/client --save
 // * Apos a instalação dos prisma devemos rodar o coamndo abaixo para inicializar o prisma:
 // Prisma:            npx prisma init
+// bodyparser define como os dados vão chegar no corpo da mensagem 
 
 
 // importando....................
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const app = express() //Objeto que vai manipular as restrições
+const bodyParserjson = bodyParser.json() // Cria um objeto do tipo json para receber os dados va Body nas requisições POST e PUT
 
-//Objeto que vai manipular as restrições
-const app = express()
 
 //Manipulando as restrições da API
 app.use((request, response, next)=>{
@@ -33,24 +34,10 @@ app.use((request, response, next)=>{
 
     next();
 })
-
 // ⊱✿⊰━━━━━━── Imports de arquivos e bibliotecas do projeto ─━━━━━━⊱✿⊰━━━━━━─
 const controleFIlmes = require('./controller/controller_filme.js')
 
 // ⊱✿⊰━─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
-
-//Endpoint
-// app.get('/v1/AcmeFilmes/filmes', cors(), async function(request, response, next){
-//     let controleFIlmes = require('./controller/funcoes')
-//     let listaFilmes = controleFIlmes.getListaDeFilmes();
-
-//     if(listaFilmes){
-//         response.json(listaFilmes)
-//         response.status(200)
-
-//     }else
-//         response.status(400)
-// });
 
 
 //1 EndPoint
@@ -60,7 +47,6 @@ app.get('/v2/acmeFilmes/filmes', cors(), async function(request, response, next)
 
     response.status(dadosFilmes.status_code)
     response.json(dadosFilmes)
-
 
 })
 
@@ -94,6 +80,20 @@ app.get('/v2/AcmeFilmes/filme/:id', cors(), async function(request, response, ne
     response.json(dadosfilme)
 
 })
+
+//4 EndPoint que adiciona no banco novos filmes // não esquecer de coocar o bodyparserJson que é qm define o fromato de cheegada dos objetos. OBS: esse objeto foi criado no inicio do projeto
+app.get('/v2/AcmeFilmes/filme', cors(), bodyParserjson, async function(request, response, next){
+
+    // recebe os dados encamihados na requisição no body - Vai hegr no padrao json por conta da forma que criamos ele la em cimma 
+    let dadosBody = request.body
+
+    //Encaminha os dados da requisição para a cotroler enviar para o banco de dados
+    let resultDados = await controleFIlmes.setInserirFilme(dadosBody)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
 
 // Exxecuta Api e faz ela ficar esperando a requisições
 app.listen('8080', function(){
