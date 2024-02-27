@@ -12,10 +12,6 @@ const filmesDAO = require('../model/DAO/filme.js')
 const message = require('../modulo/config.js')
 
 
-// Função para inserir um filme existente
-const setInserirFilme = async function(){
-
-}
 
 // Função para atualizar um filme existente
 const setAtulizarFilme = async function(){
@@ -54,7 +50,7 @@ const getListarFilmes = async function(){
         return message.ERROR_INTERNAL_SERVER_DB
 }
 
-// função para filtrar filmes com base nos dados do BD
+//2 função para filtrar filmes com base nos dados do BD
 const getFiltroFilmes = async function(nome){
 
     let filtroFilmeJSON = {}
@@ -103,6 +99,72 @@ const getBuscarFilme = async function(id){
     }
 }
 
+//3 função para buscar filme pelo ID
+const getFiltroFilme = async function(nome){
+
+    let filmesJson = {}
+    // Recebe o id do filme
+    let nomeFlme = nome
+    if(nomeFlme == "" || nomeFlme == undefined || isNaN(nomeFlme)){
+        return message.ERROR_INVALID_ID
+    }else{
+        // solicita para o dao a busca do flme pelo id
+        let dadosfilme = await filmesDAO.selectByIdfilme(nomeFlme)
+
+        // validar se existem dados no bd foram processados
+        if(dadosfilme){
+            // validação para verificar se existem dados de retorno
+            if(dadosfilme.length > 0 ){
+                
+                filmesJson.filme = dadosfilme
+                filmesJson.status_code = 200
+
+                return filmesJson 
+            }else
+            return message.ERROR_NOT_FOUND //404
+          
+        }else{
+            return message.ERROR_INTERNAL_SERVER_DB //500
+        }
+    }
+}
+
+//4  Função para inserir um filme existente
+const setInserirFilme = async function(){
+
+    let resultDadosFilme = {}
+
+    // verificar cmapos obrigatorios e consistencia de dados
+    if (dadosFilmes.nome              == '' || dadosFilmes.nome              == undefined || dadosFilmes.nome.length    > 155          ||
+        dadosFilmes.sinopse           == '' || dadosFilmes.sinopse           == undefined || dadosFilmes.sinopse.length > 650000       ||
+        dadosFilmes.duracao           == '' || dadosFilmes.duracao           == undefined || dadosFilmes.duracao.length > 8            ||
+        dadosFilmes.data_lancamento   == '' || dadosFilmes.data_lancamento   == undefined || dadosFilmes.data_lancamento.length > 10   ||
+        dadosFilmes.foto_capa         == '' || dadosFilmes.foto_capa         == undefined || dadosFilmes.foto_capa.length > 255        ||
+        dadosFilmes.data_relancamento.length > 10                                                                                      ||
+        dadosFilmes.valor_unitario.length    > 8  
+    ) {
+        return message.ERRO_REQUIRED_FIELDS // 400
+    }else{
+
+        // encmainha os dados para o dao inserir no bd
+        let novoFilme = await filmesDAO.insertfilme(dadosFilme)
+        
+        // erificar se os dados foram inseridos pelo dao no bd
+        if (novoFilme) {
+            // cria o padrao de json para o retorno dos dados criado no bd
+            resultDadosFilme.status      = message.SUCCESS_CREATED_ITEM.status,
+            resultDadosFilme.status_code = message.SUCCESS_CREATED_ITEM.status_code,
+            resultDadosFilme.message     = message.SUCCESS_CREATED_ITEM.message,
+            resultDadosFilme.filme       = dadosFilme
+
+            return resultDadosFilme
+        }else{
+            return message.ERROR_INTERNAL_SERVER_DB // 500
+        }
+    }
+
+
+}
 
 module.exports = {
     setAtulizarFilme,

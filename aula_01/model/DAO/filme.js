@@ -12,12 +12,6 @@ const { PrismaClient } = require ('@prisma/client')
 // instanciando o objeto prisma com as caracteristicas do prima client
 const prisma = new PrismaClient
 
-
-//Inserir um novo filme
-const insertfime = async function(){
-
-}
-
 //Atualizar um filme existente filtrando pelo ID
 const updateFilme = async function(id){
 
@@ -39,7 +33,7 @@ const selectAllfilmes = async function(){
    }
 }
 
-// Filtrar os filmes pelo nome
+//2 Filtrar os filmes pelo nome
 const filtrarFilmes = async function(variavelFilme){
     let sql = 'select * from tbl_filmes where nome like'+ '%'+ variavelFilme +'%'
     let rsFiltroFilmes = await prisma.$queryRawUnsafe(sql)
@@ -65,8 +59,48 @@ const selectByIdfilme = async function(id){
     }
 }
 
+//4 Inserir um novo filme
+const insertfilme = async function(dadosfilme){
+
+    try {
+        
+        let sql = `insert into tbl_filmes (
+            nome,
+            sinopse,
+            data_lancamento,
+            data_relancanto,
+            duracao,
+            foto_capa,
+            valor_unitario
+        ) values (
+            '${dadosfilme.nome}',
+            '${dadosfilme.sinopse}',
+            '${dadosfilme.data_rancamento}',
+            '${dadosfilme.data_relancamento}',
+            '${dadosfilme.ducacao}',
+            '${dadosfilme.foto_capa}',
+            '${dadosfilme.valor_unitario}',
+        )`
+
+        // executa o sript sql no bd, devemos usar o comndio execute e nao o query
+        // o omando execute deve ser utulizado pra insert update e delete
+        let rsInserirfilmes = await prisma.$executeRawUnsafe(sql)
+        //validação para veridicar se o insert funcionou no bd
+        if(rsInserirfilmes)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        return false
+        
+    }
+
+}
+
+
 module.exports = {
-    insertfime,
+    insertfilme,
     updateFilme,
     deleteFilme,
     selectAllfilmes,

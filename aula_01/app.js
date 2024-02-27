@@ -82,7 +82,7 @@ app.get('/v1/AcmeFilmes/filmes/filtro?', cors(), async function(request, respons
      }
 })
 
-//3 EndPoint retorna os dados o filme peo id 
+//3 EndPoint retorna os dados do filme pelo id 
 app.get('/v2/AcmeFilmes/filme/:id', cors(), async function(request, response, next){
 
     //  recebe p od da requisição do filme
