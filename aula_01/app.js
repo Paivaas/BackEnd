@@ -95,7 +95,7 @@ app.get('/v2/AcmeFilmes/filme', cors(), bodyParserjson, async function(request, 
 })
 
 
-// Exxecuta Api e faz ela ficar esperando a requisições
+// Exxecuta API e faz ela ficar esperando a requisições
 app.listen('8080', function(){
     console.log('API funcionando! ✿ ')
 })

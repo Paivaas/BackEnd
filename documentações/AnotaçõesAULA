@@ -66,3 +66,6 @@ get  | retorna dados
 post | insere dados novos
 put  | atualiza dados existentes
 
+05/03
+
+MySql -> select las_insert_id() from tbl_filmes limit 1

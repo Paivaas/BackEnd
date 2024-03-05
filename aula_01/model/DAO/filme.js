@@ -25,7 +25,7 @@ const deleteFilme = async function(id){
 //1 Listar todos os filmes existentes na tabela
 const selectAllfilmes = async function(){
    try {
-        let sql = 'select * from tbl_filmes'
+        let sql = 'select * from tbl_filmes order by id desc'
         let rsFilmes = await prisma.$queryRawUnsafe(sql)
         return rsFilmes
    } catch (error) {
@@ -63,10 +63,14 @@ const selectByIdfilme = async function(id){
 const insertfilme = async function(dadosfilme){
 
     try {
+
+        let sql
+
+
         
         if (dadosfilme.data_rancamento == null || dadosfilme.data_rancamento =='' || dadosfilme.data_rancamento == undefined) {
 
-            let sql = `insert into tbl_filmes (
+            sql = `insert into tbl_filmes (
                 nome,
                 sinopse,
                 data_lancamento,
@@ -86,7 +90,7 @@ const insertfilme = async function(dadosfilme){
             
         }else{
 
-            let sql = `insert into tbl_filmes (
+             sql = `insert into tbl_filmes (
                 nome,
                 sinopse,
                 data_lancamento,
@@ -121,7 +125,6 @@ const insertfilme = async function(dadosfilme){
     }
 
 }
-
 
 module.exports = {
     insertfilme,
