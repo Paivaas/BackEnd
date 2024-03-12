@@ -1,8 +1,8 @@
 //─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
-// Objetivo: Criar a interação com o BD MySql para fazer o crud de filmes
-// Data: 30/01/2024
-// Autor: Julia Paiva
-// Versão: 1.0
+//   Objetivo: Criar a interação com o BD MySql para fazer o crud de filmes
+//   Data: 30/01/2024
+//   Autor: Julia Paiva
+//   Versão: 1.0
 //─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
 
 // - Para cada interação com bc cria-se uma função nomeclatura:(nome+scrpt) ex: insertfilme
@@ -12,15 +12,6 @@ const { PrismaClient } = require ('@prisma/client')
 // instanciando o objeto prisma com as caracteristicas do prima client
 const prisma = new PrismaClient
 
-//Atualizar um filme existente filtrando pelo ID
-const updateFilme = async function(id){
-
-}
-
-//excluir um filme existente filtrando pelo ID
-const deleteFilme = async function(id){
-
-}
 
 //1 Listar todos os filmes existentes na tabela
 const selectAllfilmes = async function(){
@@ -41,7 +32,6 @@ const filtrarFilmes = async function(variavelFilme){
         return rsFiltroFilmes
     else
         return false
-
 }
 
 //3 Selecionar um filme existente filtrando pelo ID
@@ -65,10 +55,8 @@ const insertfilme = async function(dadosfilme){
     try {
 
         let sql
-
-
         
-        if (dadosfilme.data_rancamento == null || dadosfilme.data_rancamento =='' || dadosfilme.data_rancamento == undefined) {
+        if (dadosfilme.data_relancamento == null || dadosfilme.data_relancamento =='' || dadosfilme.data_relancamento == undefined) {
 
             sql = `insert into tbl_filmes (
                 nome,
@@ -90,7 +78,7 @@ const insertfilme = async function(dadosfilme){
             
         }else{
 
-             sql = `insert into tbl_filmes (
+            sql = `insert into tbl_filmes (
                 nome,
                 sinopse,
                 data_lancamento,
@@ -107,7 +95,6 @@ const insertfilme = async function(dadosfilme){
                 '${dadosfilme.foto_capa}',
                 '${dadosfilme.valor_unitario}',
             )`
-
         }
 
         // executa o sript sql no bd, devemos usar o comndio execute e nao o query
@@ -121,8 +108,33 @@ const insertfilme = async function(dadosfilme){
 
     } catch (error) {
         return false
-        
     }
+}
+
+//5 Seleciona o ultimo filme adicionado
+const selectUltimofilme = async function(id){
+
+    try {
+
+        let sql = 'select cast(last_insert_id() as DECIMAL) as id from tbl_filme limit 1'
+    
+        let rsFilmes = await prisma.$queryRawUnsafe(sql)
+    
+        return rsFilmes
+        
+    } catch (error) {
+        return false
+    }
+}
+
+
+//Atualizar um filme existente filtrando pelo ID
+const updateFilme = async function(id){
+
+}
+
+//excluir um filme existente filtrando pelo ID
+const deleteFilme = async function(id){
 
 }
 
@@ -133,5 +145,6 @@ module.exports = {
     selectAllfilmes,
     selectAllfilmes,
     filtrarFilmes,
+    selectUltimofilme,
     selectByIdfilme
 }

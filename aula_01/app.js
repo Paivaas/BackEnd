@@ -1,19 +1,16 @@
-//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
-//
-//
-//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
-// Para realizar a conexão com o BD preicamo utiliazr uma dependencia:
-// - SEQUELIZE ORM Possui diversas vulnerabilidades (É antigo). x
-// - PRISMA    ORM Permite uma melhor interação com o banco    ✔
-// - FASTFY    ORM                                             ✔
+//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
+//    Para realizar a conexão com o BD preicamo utiliazr uma dependencia:
+//    - SEQUELIZE ORM Possui diversas vulnerabilidades (É antigo). x
+//    - PRISMA    ORM Permite uma melhor interação com o banco    ✔
+//    - FASTFY    ORM                                             ✔
 
-//para utilizar o prisma precisamos instalr as seguintes dependencias
-// Prisma instalação: npm install prisma --save (Na pasta raiz - APP)
-// Prisma:            npm install @prisma/client --save
-// * Apos a instalação dos prisma devemos rodar o coamndo abaixo para inicializar o prisma:
-// Prisma:            npx prisma init
-// bodyparser define como os dados vão chegar no corpo da mensagem 
-
+//    para utilizar o prisma precisamos instalr as seguintes dependencias
+//    Prisma instalação: npm install prisma --save (Na pasta raiz - APP)
+//    Prisma:            npm install @prisma/client --save
+//    * Apos a instalação dos prisma devemos rodar o coamndo abaixo para inicializar o prisma:
+//    Prisma:            npx prisma init
+//    bodyparser define como os dados vão chegar no corpo da mensagem 
+//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
 
 // importando....................
 const express = require('express')
@@ -36,7 +33,6 @@ app.use((request, response, next)=>{
 })
 // ⊱✿⊰━━━━━━── Imports de arquivos e bibliotecas do projeto ─━━━━━━⊱✿⊰━━━━━━─
 const controleFIlmes = require('./controller/controller_filme.js')
-
 // ⊱✿⊰━─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
 
 
@@ -47,7 +43,6 @@ app.get('/v2/acmeFilmes/filmes', cors(), async function(request, response, next)
 
     response.status(dadosFilmes.status_code)
     response.json(dadosFilmes)
-
 })
 
 //2 EndPoint listar filmes
@@ -78,11 +73,15 @@ app.get('/v2/AcmeFilmes/filme/:id', cors(), async function(request, response, ne
 
     response.status(dadosfilme.status_code)
     response.json(dadosfilme)
-
 })
 
 //4 EndPoint que adiciona no banco novos filmes // não esquecer de coocar o bodyparserJson que é qm define o fromato de cheegada dos objetos. OBS: esse objeto foi criado no inicio do projeto
 app.get('/v2/AcmeFilmes/filme', cors(), bodyParserjson, async function(request, response, next){
+
+        let contentType = request.headers('content-type')
+        console.log(contentType)
+
+
 
     // recebe os dados encamihados na requisição no body - Vai hegr no padrao json por conta da forma que criamos ele la em cimma 
     let dadosBody = request.body
@@ -94,8 +93,18 @@ app.get('/v2/AcmeFilmes/filme', cors(), bodyParserjson, async function(request, 
     response.json(resultDados)
 })
 
+//5 Endpoint da função que retorna apenas o ultimo id da tbl-filmes
+app.get('/v2/AcmeFilmes/filme', cors(), async function(request, response, next){
+    
+    let dadoId = await controleFIlmes.setUltimoId()
 
-// Exxecuta API e faz ela ficar esperando a requisições
+    response.status(dadosFilmes.status_code)
+    response.json(dadoId)
+
+})
+
+
+//Exxecuta API e faz ela ficar esperando a requisições
 app.listen('8080', function(){
     console.log('API funcionando! ✿ ')
 })
