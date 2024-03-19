@@ -76,11 +76,10 @@ app.get('/v2/AcmeFilmes/filme/:id', cors(), async function(request, response, ne
 })
 
 //4 EndPoint que adiciona no banco novos filmes // não esquecer de coocar o bodyparserJson que é qm define o fromato de cheegada dos objetos. OBS: esse objeto foi criado no inicio do projeto
-app.get('/v2/AcmeFilmes/filme', cors(), bodyParserjson, async function(request, response, next){
+app.post('/v2/AcmeFilmes/filme', cors(), bodyParserjson, async function(request, response, next){
 
         let contentType = request.headers('content-type')
         console.log(contentType)
-
 
 
     // recebe os dados encamihados na requisição no body - Vai hegr no padrao json por conta da forma que criamos ele la em cimma 
@@ -102,6 +101,36 @@ app.get('/v2/AcmeFilmes/filme', cors(), async function(request, response, next){
     response.json(dadoId)
 
 })
+
+//6 Endpoint que altera dados 
+app.put('/v2/AcmeFilmes/filme', cors(), async function(request, response, next){
+    
+    let contentType = request.headers('content-type')
+    console.log(contentType)
+
+
+    // recebe os dados encamihados na requisição no body - Vai hegr no padrao json por conta da forma que criamos ele la em cimma 
+    let dadosBody = request.body
+
+    //Encaminha os dados da requisição para a cotroler enviar para o banco de dados
+    let resultDados = await controleFIlmes.setInserirFilme(dadosBody)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+
+})
+
+//7 Endpoint da função de deletar
+app.delete('/v2/AcmeFilmes/filme', cors(), async function(request, response, next){
+
+    let idFilme = request.params.id
+    let dadosfilme = await controleFIlmes.getBuscarFilme(idFilme)
+
+    response.status(dadosfilme.status_code)
+    response.json(dadosfilme)
+
+})
+
 
 
 //Exxecuta API e faz ela ficar esperando a requisições

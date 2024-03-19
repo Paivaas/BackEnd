@@ -17,6 +17,7 @@
 // MENSAGENS DE SUCESSO
 
  const SUCCESS_CREATED_ITEM = {status: true, status_code: 201, message: 'Item criado com sucesso no banco de dados! ✿'}
+ const REQUEST_SUCCEEDED = {status: true, status_code: 200, message: 'Requisição bem-sucedida! ✿'}
 
  module.exports = {
     ERROR_INVALID_ID,
@@ -25,5 +26,6 @@
     ERROR_REQUIRED_FIELDS,
     ERROR_CONTENT_TYPE,
     ERROR_INTERNAL_SERVER_API,
-    SUCCESS_CREATED_ITEM
+    SUCCESS_CREATED_ITEM,
+    REQUEST_SUCCEEDED
  }

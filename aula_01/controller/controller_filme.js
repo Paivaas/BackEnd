@@ -210,19 +210,41 @@ const setUltimoId = async function (id){
     }
 }
 
-// Função para atualizar um filme existente
+//6 Função para atualizar um filme existente
 const setAtulizarFilme = async function () {
 
 }
 
-// função para excluir um filme existente
-const setExcluirFilme = async function () {
+//7 função para excluir um filme existente
+const setExcluirFilme = async function (id) {
 
+    let filmesJson = {}
+    let idFilme = id
+
+    if (idFilme == "" || idFilme == undefined || isNaN(idFilme)) {
+        return message.ERROR_INVALID_ID
+    } else {
+        let dadosfilme = await filmesDAO.deleteFilme(idFilme)
+
+        if (dadosfilme) {
+    
+            if (dadosfilme.length > 0) {
+
+                filmesJson.filme = dadosfilme
+
+                return message.ERROR_INTERNAL_SERVER_API //500
+            } else
+                return message.REQUEST_SUCCEEDED // 200
+
+        } else {
+            return message.ERROR_INTERNAL_SERVER_DB //500
+        }
+    }
 }
 
 module.exports = {
     setAtulizarFilme, //❀ faltando finalizar
-    setInserirFilme, //❀ faltando finalizar
+    setInserirFilme, 
     setExcluirFilme,
     setUltimoId,
     getBuscarFilme,

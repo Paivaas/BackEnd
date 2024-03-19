@@ -1,9 +1,9 @@
-//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
-//   Objetivo: Criar a interação com o BD MySql para fazer o crud de filmes
-//   Data: 30/01/2024
-//   Autor: Julia Paiva
-//   Versão: 1.0
-//─━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━─
+/*━━━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━━━━
+   Objetivo: Criar a interação com o BD MySql para fazer o crud de filmes
+   Data: 30/01/2024
+   Autor: Julia Paiva
+   Versão: 1.0
+━━━━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━──━━━━━━⊱✿⊰━━━━━━━━━*/
 
 // - Para cada interação com bc cria-se uma função nomeclatura:(nome+scrpt) ex: insertfilme
 
@@ -127,14 +127,47 @@ const selectUltimofilme = async function(id){
     }
 }
 
-
-//Atualizar um filme existente filtrando pelo ID
+//6 Atualizar um filme existente filtrando pelo ID
 const updateFilme = async function(id){
+
+    try {
+        
+        let sql
+           
+        sql = `update into tbl_filmes set
+        nome ="${dadosfilme.nome}",
+        sinopse ="${dadosfilme.sinopse}",
+        data_lancamento ="${dadosfilme.data_lancamento}",
+        data_relancanto ="${dadosfilme.data_rancamento}",
+        duracao ="${dadosfilme.duracao}",
+        foto_capa ="${dadosfilme.foto_capa}",
+        valor_unitario ="${dadosfilme.valor_unitario}" 
+        where id=${id}`
+
+        let rsInserirfilmes = await prisma.$executeRawUnsafe(sql)
+
+        if(rsInserirfilmes)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
 
 }
 
-//excluir um filme existente filtrando pelo ID
+//7 Excluir um filme existente filtrando pelo ID
 const deleteFilme = async function(id){
+
+    try {
+        var sql = `delete * from tbl_filmes where id=${id}`
+        let rsBuscarFilmes = await prisma.$queryRawUnsafe(sql)
+        return rsBuscarFilmes
+
+    } catch (error) {
+        return false
+    }
 
 }
 
@@ -142,7 +175,6 @@ module.exports = {
     insertfilme,
     updateFilme,
     deleteFilme,
-    selectAllfilmes,
     selectAllfilmes,
     filtrarFilmes,
     selectUltimofilme,
